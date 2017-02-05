@@ -1,0 +1,50 @@
+<div class="col-sm-12">
+    <div class=" page-heading" id="page-heading">
+        <span>Config</span>
+    </div>
+    <p ng-show="config.noResults">No Results Found</p>
+    <panel panel-class="panel-sky" ng-hide="config.noResults"> 
+        <div class="panel panel-sky add-panel">
+            <div class="form-horizontal panel-heading list-header">
+                <div class="col-md-2">
+                    <span>
+                        <span class="btn btn-success-alt btn-growsari" type="button" style="margin: 5px" ng-click="addEditConfig()"> Add </span>  &nbsp;&nbsp;
+                    </span>
+                </div>
+            </div>
+            <div class="panel-heading col-md-2">
+                
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive ng-scope">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th> <input type="checkbox" id="ckbCheckAll"> </th>
+                                <th> Key </th>
+                                <th> Value </th>
+                                <th> Updated At </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in config.config">
+                                <td><input type="checkbox" id="{{x.id}}" ng-model="x.id" class="checkBoxClass">  </td>
+                                <td><a ng-href="" ng-click="addEditConfig(x.id)">{{x.field}}</a></td>
+                                <td>{{x.value}}</td>
+                                <td>{{ x.updated_at}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </panel>
+    <gs-pagination ng-hide="config.noResults"></gs-pagination>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#ckbCheckAll").click(function () {
+            $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+        });
+    });
+</script>

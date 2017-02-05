@@ -1,0 +1,23 @@
+{
+    "name": "zendframework/skeleton-application",
+    "description": "Skeleton Application for ZF2",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "framework",
+        "zf2"
+    ],
+    "homepage": "http://framework.zend.com/",
+    "require": {
+        "php": ">=5.5",
+        "zendframework/zendframework": "~2.5",
+        "outeredge/swagger-module": "^2.0",
+        "memio/memio": "^1.0",
+        "zendframework/zftool": "dev-master",
+        "riktamtech/zf2-error-handler": "dev-master",
+        "zf-commons/zfc-user": "^1.4",
+        "venu/zfcuser-userid-to-id": "dev-master",
+        "zendframework/zendservice-google-gcm": "^1.0",
+        "symfony/process": "^3.1",
+        "aws/aws-sdk-php": "^3.18"
+    }
+}

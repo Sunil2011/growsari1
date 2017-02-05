@@ -1,0 +1,58 @@
+<div class="col-sm-12">
+    <div class=" page-heading" id="page-heading">
+        <span>Sales Persons</span>
+    </div>
+    <p ng-show="sales.noResults">No Results Found</p>
+    <panel panel-class="panel-sky" ng-hide="sales.noResults"> 
+        <div class="panel panel-sky add-panel">
+            <div class="form-horizontal panel-heading list-header">
+                <div class="col-md-2">
+                    <span>
+                        <!--<span class="btn btn-success-alt btn-growsari" type="button" style="margin: 5px" ng-click="addEditBrand()"> Add </span>  &nbsp;&nbsp;-->
+<!--                        <span class="btn btn-danger-alt btn-growsari" id="deleteProduct" ng-click="deleteBrand()">
+                            <i class="ti ti-trash"></i>
+                        </span>-->
+                    </span>
+                </div>
+            </div>
+            <div class="panel-heading col-md-2">
+                
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive ng-scope">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <!--<th> # </th>-->
+                                <th> Name </th>
+                                <th> Email </th>
+                                <th> Phone </th>
+                                <!--<th> Num of Stores </th>-->
+                                <th> Report </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in sales.salesman">
+                                <!--<td> <input type="radio"  name="brand_id" ng-value="{{x.brand_id}}" ng-model="brand.id" class="checkBoxClass">  </td>-->
+                                <!--<td><a ng-href="" ng-click="addEditBrand(x.brand_id)">{{ x.username}}</a></td>-->
+                                <td>{{ x.username}}</td>
+                                <td>{{ x.email}}</td>
+                                <td>{{ x.phone}}</td>
+                                <!--<td>{{ x.num_of_stores  }}</td>-->
+                                <td>
+                                    <span class="btn btn-danger-alt btn-growsari btn-gs-table" ng-click="sales.getSalesReport(x.account_id,'briefRep')">
+                                        <i class="ti ti-eye"></i>
+                                    </span>
+                                    <span class="btn btn-danger-alt btn-growsari btn-gs-table" ng-click="sales.getSalesReport(x.account_id,'detailRep')">
+                                        Details
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </panel>
+    <!--<gs-pagination ng-hide="sales.noResults"></gs-pagination>-->
+</div>

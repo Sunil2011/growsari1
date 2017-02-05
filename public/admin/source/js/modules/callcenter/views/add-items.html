@@ -1,0 +1,76 @@
+<div id="order-item-add" style="z-index:1400">
+  <div class="modal-header">
+    <h3 class="modal-title">Order {{'#' + orderId}}</h3>
+  </div>
+  <div class="modal-body" id="box-modal"  style="height: 600px;">
+    <div class="col-sm-12">
+      <div class="panel panel-sky add-panel" style="border:0px;box-shadow:0 0 0 0;margin:0px;">
+        <div class="panel-body" style="padding:0px;">
+          <div class="form-horizontal">
+            <div class="col-md-12 panel-filter">
+              <div class="search-filter">
+                <label>Category</label>
+                <select id="selectedCat" class="form-control" ng-model="categoryId" ng-change="getProducts()" >
+                  <option value="">Select category</option>
+                  <option ng-repeat="item in cats" value="{{ item.category_id}}"> {{ item.category_name}} </option>
+                </select>
+              </div>
+              <div class="search-filter">
+                <label>Brand</label>
+                <select id="selectedCat" class="form-control" ng-model="brandId" ng-change="getProducts()" >
+                  <option value="">Select brand</option>
+                  <option ng-repeat="item in brds" value="{{ item.brand_id}}"> {{ item.brand_name}} </option>
+                </select>
+              </div>
+              <div class="search-filter">
+                <label>Search</label>
+                <input type="text" class="form-control ng-pristine ng-valid ng-touched" ng-keyup="$event.keyCode == 13 && getProducts()" ng-model="search">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="getProducts()"><i class="glyphicon glyphicon-search"></i></button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <panel panel-class="panel-sky"> 
+        <div class="panel panel-sky add-panel">
+          <div class="panel-body" style="overflow: auto;height:400px">
+            <div class="table-responsive ng-scope">
+              <table class="table">
+                <thead>
+                  <tr style="border-left: 10px solid #fff;">
+                    <th> # </th>
+                    <th> SKU </th>
+                    <th> Quantity </th>
+                  </tr>
+                </thead>
+                <tbody  ng-hide="orderAddItem.noResults">
+                  <tr ng-style="x.variant_color && {'border-left':'10px solid #' + x.variant_color}" ng-repeat="(index, x) in orderAddItem.prd">
+                    <td><input type="radio" ng-disabled="{{x.is_available != 1}}" id="product_id-{{x.id}}"  name="product_index" ng-value="{{index}}" ng-model="orderAddItem.productIndex" ng-change="" class="checkBoxClass">  </td>
+                    <td>
+                      <label for="product_id-{{x.id}}">{{ x.sku + '-' + x.line + '-' + x.format + '-'+ x.volume + '-' + x.price}} </label>  
+                      <span ng-if="x.is_available == 0" style="background-color: red">
+                        <br>Not available
+                      </span>  
+                      <span ng-if="x.is_available == 2" style="background-color: red">
+                        <br>Selling Fast
+                      </span>
+                    </td>
+                    <td><input  class="form-control" value="" type="number" min="0" ng-model="orderAddItem.quantity[index]"></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p ng-show="orderAddItem.noResults">No Results Found</p>
+            </div>
+          </div>
+        </div>
+      </panel>
+      <gs-pagination ng-hide="orderAddItem.noResults"></gs-pagination>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary-alt btn-growsari" type="button" ng-click="orderAddItem.addItems(orderAddItem.productIndex, orderAddItem.quantity[orderAddItem.productIndex])">Add Item</button>
+    <button class="btn btn-primary-alt btn-growsari" type="button" ng-click="orderAddItem.close(orderAddItem.orderId)">Close</button>
+  </div>
+</div>

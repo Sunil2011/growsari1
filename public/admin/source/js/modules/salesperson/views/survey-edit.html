@@ -1,0 +1,143 @@
+<div class="container-fluid">    
+    <div data-widget-group="group1" class="ui-sortable">
+        <div class=" page-heading" id="page-heading">
+            <span>Edit Survey</span>
+        </div>
+        <div class="panel panel-default add-panel">
+            <div class="panel-body">
+                <form ng-submit="submitDataWithFile()" enctype="multipart/form-data" id="surveyForm" class="form-horizontal row-border ng-pristine ng-valid">
+                    <input class="form-control"  type="hidden" ng-model="surveyEdit.survey.id">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Username</label>
+                        <div class="col-md-8 name-field">
+                            <input class="form-control" type="text" readonly ng-model="surveyEdit.survey.username">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Name *</label>
+                        <div class="col-md-8 name-field">
+                            <input class="form-control" type="text" ng-model="surveyEdit.survey.name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Store</label>
+                        <div class="col-md-8">
+                            <p class="form-static-text" ng-show="surveyEdit.survey.is_store_linked">{{surveyEdit.survey.store_name}}</p>
+                            <select class="form-control" ng-model="surveyEdit.survey.store_id" ng-hide="surveyEdit.survey.is_store_linked">
+                                <option value="">Select Store to link</option>
+                                <option ng-repeat="str in surveyEdit.store" value="{{str.store_id}}"> {{ str.name}} </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Customer Name </label>
+                        <div class="col-md-8 name-field">
+                            <input class="form-control" type="text" ng-model="surveyEdit.survey.customer_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Contact Number * </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text"  ng-model="surveyEdit.survey.contact_no">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > Address *</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="surveyEdit.survey.address">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Point </label>
+                        <div class="col-md-2">
+                            <input class="form-control" type="text" ng-model="surveyEdit.survey.point_x" placeholder="lat">
+                        </div>
+                        <div class="col-md-2">
+                            <input class="form-control" type="text" ng-model="surveyEdit.survey.point_y" placeholder="long">
+                        </div>
+                    </div>
+                                                                      
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Photo </label>
+                        <span class="col-md-2" ng-show="surveyEdit.survey.photo">
+                            <img class="profile-img" ng-src="{{surveyEdit.survey.photo}}" err-src="{{CONFIG.ImageBasePath + '/survey/survey.png'}}"/>
+                        </span>
+                        <label class="custom-file-upload col-md-2">
+                            <input class="" type="file" file-model="file"/>
+                            <i class="ti ti-upload"></i>
+                        </label>
+                        <span class="col-md-2">
+                            <p ng-show="fileName">{{fileName}}</p>
+                        </span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Is Covered </label>
+                        <div class="col-md-8 check-input">
+                            <input class="" type="checkbox" ng-model="surveyEdit.survey.is_covered" ng-true-value="'1'" ng-false-value="'0'"  ng-checked="surveyEdit.survey.is_covered == 1"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Is Store Owner </label>
+                        <div class="col-md-8 check-input">
+                            <input class="" type="checkbox" ng-model="surveyEdit.survey.is_storeowner" ng-true-value="'1'" ng-false-value="'0'"  ng-checked="surveyEdit.survey.is_storeowner == 1"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Has Smartphone </label>
+                        <div class="col-md-8 check-input">
+                            <input class="" type="checkbox" ng-model="surveyEdit.survey.has_smartphone" ng-true-value="'1'" ng-false-value="'0'"  ng-checked="surveyEdit.survey.has_smartphone == 1"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Spend per week</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text"  ng-model="surveyEdit.survey.spend_per_week">
+'                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Funnel Status</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="surveyEdit.survey.funnel_status" >
+                                <option ng-repeat="(key, value) in surveyEdit.funnel_status" value="{{key}}"> {{ value}} </option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">
+                        <label class="col-md-2 control-label">Revisit Date</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text"  ng-model="surveyEdit.survey.revisit_date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Revisit Time</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text"  ng-model="surveyEdit.survey.revisit_time">
+                        </div>
+                    </div>-->
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Remarks</label>
+                        <div class="col-md-8">
+                          <textarea class="form-control" type="text"  ng-model="surveyEdit.survey.remarks"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="submit-btn-div col-md-6">
+                            <span class="btn btn-primary-alt btn-label btn-growsari" ng-click="surveyEdit.submitSurvey()">Submit</span>
+                        </div>
+                        <div class="cancel-btn-div col-md-6">
+                            <span class="btn btn-primary-alt btn-label btn-growsari" id="cancelForm" ng-click="surveyEdit.cancel()">Cancel</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

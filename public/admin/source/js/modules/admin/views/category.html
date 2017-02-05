@@ -1,0 +1,46 @@
+<div class="col-sm-12">
+    <div class=" page-heading" id="page-heading">
+        <span>Categories</span>
+    </div>
+    <p ng-show="category.noResults">No Results Found</p>
+    <panel panel-class="panel-sky" ng-hide="category.noResults"> 
+        <div class="panel panel-sky add-panel">
+            <div class="form-horizontal panel-heading list-header">
+                <div class="col-md-2">
+                    <span>
+                        <span class="btn btn-success-alt btn-growsari" type="button" style="margin: 5px" ng-click="addEditCategory()"> Add </span>  &nbsp;&nbsp;
+                        <span class="btn btn-danger-alt btn-growsari" id="deleteProduct" ng-click="deleteCategory()">
+                            <i class="ti ti-trash"></i>
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-heading col-md-2">
+                
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive ng-scope">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> Thumbnail </th>
+                                <th> Name </th>
+                                <th> Updated At </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in category.categories">
+                                <td> <input type="radio" name="category_id" ng-value="{{x.category_id}}" ng-model="category.id" class="checkBoxClass">  </td>
+                                <td> <img class="profile-img" ng-src="{{x.thumb_url}}" err-src="{{imageBasePath + 'brand/brand.png'}}"/></td>
+                                <td><a ng-href="" ng-click="addEditCategory(x.category_id)">{{ x.category_name}}</a></td>
+                                <td>{{ x.updated_at}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </panel>
+    <gs-pagination ng-hide="category.noResults"></gs-pagination>
+</div>

@@ -1,0 +1,75 @@
+<div class="col-sm-12">
+  <div class=" page-heading" id="page-heading">
+    <span>Store</span>
+  </div>
+  <panel panel-class="panel-sky"> 
+    <div class="panel panel-sky add-panel">
+      <div class="form-horizontal panel-heading list-header">
+        <div class="col-md-10 panel-filter">
+          <div class="filters col-md-4">
+            <div class="search-filter">
+              <label>Search</label>
+              <input type="text" class="form-control ng-pristine ng-valid ng-touched" ng-keyup="$event.keyCode == 13 && getStores()" ng-model="store.storeParam.search">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="getStores()"><i class="glyphicon glyphicon-search"></i></button>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <span> 
+              <span class="btn btn-success-alt btn-growsari" id="addProduct" type="button" style="margin: 5px" ng-click="addStore()"> Add </span>  &nbsp;&nbsp;
+              <span class="btn btn-danger-alt btn-growsari" id="deleteProduct" ng-click="deleteStore()">
+                <i class="ti ti-trash"></i>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="panel-heading col-md-2">
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive ng-scope">
+          <table class="table">
+            <thead>
+              <tr style="border-left: 10px solid #fff;">
+                <th> # </th>
+                <th> Name </th>
+                <th> Username </th>
+                <th> Location </th>
+                <th> Photo </th>
+                <th> contact No </th>
+                <th> Wallet </th>
+              </tr>
+            </thead>
+            <tbody  ng-hide="store.noResults">
+              <tr ng-style="x.variant_color && {'border-left':'10px solid #' + x.variant_color}" ng-repeat="x in store.store">
+                <td> <input type="radio"  name="store_id" ng-value="{{x.id}}" ng-model="store.id" class="checkBoxClass">  </td>
+                <td> <a ng-href="" ng-click="editStore(x.id)"> {{ x.name}} </a></td>
+                <td> {{ x.username}} </a></td>
+                <td>{{x.address}} <br>Lat Long: {{ x.point_x + ', ' + x.point_y}}</td>
+                <td><span class="col-md-2" ng-show="x.photo && x.photo != 0">
+                    <img class="profile-img" ng-src="{{x.photo}}" err-src="{{CONFIG.ImageBasePath + '/store/store.png'}}"/>
+                  </span></td>
+                <td>{{ x.contact_no}}</td>
+                <td>
+                    <span class="btn btn-danger-alt btn-growsari btn-gs-table" ng-click="store.addMoney(x.id)">
+                        <i class="ti ti-wallet"></i>
+                    </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div ng-show="store.noResults">No Results Found</div>
+        </div>
+      </div>
+    </div>
+  </panel>
+  <gs-pagination ng-hide="store.noResults"></gs-pagination>
+</div>
+<script>
+  $(document).ready(function () {
+    $("#ckbCheckAll").click(function () {
+      $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+    });
+  });
+</script>

@@ -1,0 +1,46 @@
+<div class="col-sm-12">
+    <div class=" page-heading" id="page-heading">
+        <span>Brands</span>
+    </div>
+    <p ng-show="brand.noResults">No Results Found</p>
+    <panel panel-class="panel-sky" ng-hide="brand.noResults"> 
+        <div class="panel panel-sky add-panel">
+            <div class="form-horizontal panel-heading list-header">
+                <div class="col-md-2">
+                    <span>
+                        <span class="btn btn-success-alt btn-growsari" type="button" style="margin: 5px" ng-click="addEditBrand()"> Add </span>  &nbsp;&nbsp;
+                        <span class="btn btn-danger-alt btn-growsari" id="deleteProduct" ng-click="deleteBrand()">
+                            <i class="ti ti-trash"></i>
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-heading col-md-2">
+                
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive ng-scope">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> Thumbnail </th>
+                                <th> Name </th>
+                                <th> Updated At </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in brand.brands">
+                                <td> <input type="radio"  name="brand_id" ng-value="{{x.brand_id}}" ng-model="brand.id" class="checkBoxClass">  </td>
+                                <td> <img class="profile-img" ng-src="{{x.brand_image}}" err-src="{{imageBasePath + 'brand/brand.png'}}"/></td>
+                                <td><a ng-href="" ng-click="addEditBrand(x.brand_id)">{{ x.brand_name}}</a></td>
+                                <td>{{ x.updated_at}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </panel>
+    <gs-pagination ng-hide="brand.noResults"></gs-pagination>
+</div>

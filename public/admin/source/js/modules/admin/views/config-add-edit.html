@@ -1,0 +1,40 @@
+<div class="container-fluid">    
+    <div data-widget-group="group1" class="ui-sortable">
+        <div class=" page-heading" id="page-heading">
+            <span ng-if="!configUpdate.config.id">Add Config</span>
+            <span ng-if="configUpdate.config.id">Edit Config</span>
+        </div>
+        <div class="panel panel-default add-panel">
+            <div class="panel-body">
+                <form ng-submit="submitDataWithFile()" enctype="multipart/form-data" id="productForm" class="form-horizontal row-border ng-pristine ng-valid">
+                    <input class="form-control"  type="hidden" ng-model="configUpdate.config.id">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Key </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="configUpdate.config.field">
+                        </div>
+                    </div>
+                    
+                   <div class="form-group">
+                        <label class="col-md-2 control-label" > Value </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="configUpdate.config.value">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="submit-btn-div col-md-6">
+                            <span class="btn btn-primary-alt btn-label btn-growsari" ng-click="configUpdate.submitCategory()">Submit</span>
+                        </div>
+                        <div class="cancel-btn-div col-md-6">
+                            <span class="btn btn-primary-alt btn-label btn-growsari" id="cancelForm" ng-click="configUpdate.cancel()">Cancel</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

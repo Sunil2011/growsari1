@@ -1,0 +1,41 @@
+<div class=" page-heading" id="page-heading">
+  <span>Assign Shipper - Map View</span>
+</div>
+
+<div class="container-fluid">
+  <div data-widget-group="group1" class="ui-sortable">
+    <div class="row">
+      <div class="date-panel col-md-12">
+        <div class="col-md-4">        
+          <label for="deliverydate">Delivery Date</label>
+          <input type="text"  ng-change="getOrders()" class="form-control datepicker" ng-model="deliveryDate"  is-open="isOpen" datepicker-append-to-body="true" uib-datepicker-popup="{{'yyyy-MM-dd'}}" ng-required="true" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openDate()"><i class="ti ti-calendar"></i></button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div style="height: 600px">
+        <ui-gmap-google-map center='map.center' zoom='map.zoom' control="map.control">
+          <ui-gmap-markers  models="orders" fit='true' coords="'point'" icon="'icon'"
+                            events="markersEvents"></ui-gmap-markers>
+        </ui-gmap-google-map>
+      </div>
+      <div class="dt-toolbar-footer">
+        <div class="col-xs-12">
+          <label class="legend-marker" >
+            <img ng-src="{{CONFIG.ImageUrl + '/markers/' + 'green-dot.png'}}">
+            Assigned
+          </label>
+          <label class="legend-marker" >
+            <img ng-src="{{CONFIG.ImageUrl + '/markers/' + 'yellow-dot.png'}}">
+            Unassigned
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- .container-fluid -->
+
+

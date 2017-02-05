@@ -1,0 +1,23 @@
+<?php
+return array(
+    'session' => array(
+        'table_name' => 'session',
+        'config' => array(
+            'class' => 'Zend\Session\Config\SessionConfig',
+            'options' => array(
+                'name' => 'your_session_name',
+                'remember_me_seconds' => 2592000,
+                'cookie_lifetime' => 2592000,
+                'gc_maxlifetime' => 2592000,
+                'use_cookies' => true,
+            ),
+        ),
+        'storage' => 'Zend\Session\Storage\SessionArrayStorage',
+        'validators' => array(
+            array(
+                'Zend\Session\Validator\RemoteAddr',
+                'Zend\Session\Validator\HttpUserAgent',
+            ),
+        ),
+    ),
+);

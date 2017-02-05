@@ -1,0 +1,110 @@
+<div class="col-sm-12">
+    <div class=" page-heading" id="page-heading">
+        <span>Sales Person's Stores</span>
+    </div>
+    <div class="filters row">
+        <div class="col-md-3 date-div" ng->
+            <input type="text"  readonly="readonly" class="form-control datepicker" datepicker-append-to-body="true" uib-datepicker-popup="{{'dd-MM-yyyy'}}" ng-model="salesRep.startDate"  is-open="salesRep.isStartDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="salesRep.openDate('isStartDate')"><i class="ti ti-calendar"></i></button>
+            </span>
+        </div>
+        <label style="padding: 0px 5px 0px 30px;line-height: 33px;"> To </label>
+        <div class="col-md-3 date-div">
+            <input type="text"  readonly="readonly" class="form-control datepicker" datepicker-append-to-body="true" uib-datepicker-popup="{{'dd-MM-yyyy'}}" ng-model="salesRep.endDate" is-open="salesRep.isEndDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="salesRep.openDate('isEndDate')"><i class="ti ti-calendar"></i></button>
+            </span>
+        </div>
+        <div class="col-md-2" style="line-height: 0px;">
+            <span class="btn btn-inverse-alt" id="deleteProduct" ng-click="salesRep.getFilteredList()">
+                Go
+            </span>
+        </div>
+    </div>
+    <p ng-show="salesRep.noResults">No Results Found</p>
+<!--    Report 1st-->
+    <div ng-show="salesRep.showBriefReport">
+        <panel panel-class="panel-sky" ng-hide="salesRep.noResults"> 
+            <div class="panel panel-sky add-panel">
+                <div class="form-horizontal panel-heading list-header">
+                    <div class="col-md-6">
+                        <span class="btn btn-success-alt btn-growsari" type="button" style="margin: 5px" ng-click="salesRep.exportReport('briefRep')"> Export </span>
+                    </div>
+                </div>
+                <div class="panel-heading col-md-2">
+
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive ng-scope">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <!--<th> # </th>-->
+                                    <th> Date </th>
+                                    <th> Num Of Survey </th>
+                                    <th> Num Of Store SignUp </th>
+    <!--                                <th> First LogIn At </th>
+                                    <th> Location </th>-->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in salesRep.reports">
+                                    <!--<td> <input type="radio"  name="brand_id" ng-value="{{x.brand_id}}" ng-model="brand.id" class="checkBoxClass">  </td>-->
+                                    <!--<td><a ng-href="" ng-click="salesRep.openStore(x.store_id)">{{ x.store_name}}</a></td>-->
+                                    <td>{{ x.date}}</td>
+                                    <td>{{ x.num_of_survey || 0}}</td>
+                                    <td>{{ x.num_of_store_signup || 0}}</td>
+    <!--                                <td>{{ x.first_loggedin_time  }}</td>
+                                    <td>{{ x.area  }}</td>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </panel>
+    </div>
+<!--Report 2nd-->
+    <div ng-show="salesRep.showDetailReport">
+        <panel panel-class="panel-sky" ng-hide="salesRep.noResults"> 
+            <div class="panel panel-sky add-panel">
+                <div class="form-horizontal panel-heading list-header">
+                    <div class="col-md-6">
+                        <span class="btn btn-success-alt btn-growsari" type="button" style="margin: 5px" ng-click="salesRep.exportReport('detailRep')"> Export </span>
+                    </div>
+                </div>
+                <div class="panel-heading col-md-2">
+
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive ng-scope">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th> Survey </th>
+                                    <th> Address </th>
+                                    <th> Phone </th>
+                                    <th> Created at </th>
+                                    <th> SignUp At </th>
+                                    <th> First LogIn At </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in salesRep.reports">
+                                    <td>{{ x.survey_name }}</td>
+                                    <td>{{ x.address }}</td>
+                                    <td>{{ x.store_phone }}</td>
+                                    <td>{{ formatDate(x.created_at)  }}</td>
+                                    <td>{{ formatDate(x.signup_time)}}</td>
+                                    <td>{{ formatDate(x.first_loggedin_time) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </panel>
+    </div>
+    <gs-pagination ng-hide="salesRep.noResults"></gs-pagination>
+</div>

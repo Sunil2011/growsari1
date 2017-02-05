@@ -1,0 +1,11 @@
+// Link color
+// ==========
+
+@mixin link-color($color) {
+
+  &,
+  & .link_u {
+    border-color: rgba($color, 0.2);
+    color: $color;
+  }
+}

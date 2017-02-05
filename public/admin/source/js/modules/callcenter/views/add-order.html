@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<div class="container-fluid">    
+    <div data-widget-group="group1" class="ui-sortable">
+        <div class=" page-heading" id="page-heading">
+            <span>Add Order</span>
+        </div>
+
+        <div class="panel panel-default add-panel">
+            <div class="form-horizontal panel-heading list-header">
+                <div class="col-md-10 panel-filter">
+                    <div class="col-md-2">
+                        <span> 
+                            <span class="btn btn-success-alt btn-growsari" id="addProduct" type="button" style="margin: 5px" ng-click="orderAdd.addItem()"> Add Item</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal row-border ng-pristine ng-valid">
+                    <input class="form-control"  type="hidden" ng-model="storeAddEdit.store.id">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Store</label>
+                        <div class="col-md-8 name-field typeahead">
+                            <input type="text" ng-model="orderAdd.selectedStore" typeahead-on-select="orderAdd.updatePoints()" typeahead-loading="loadingLocations" typeahead-no-results="noResults" ng-model-options="modelOptions" uib-typeahead="store as store.full_name for store in orderAdd.stores | filter:$viewValue | limitTo:8" class="form-control">
+                            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                            <div ng-show="noResults">
+                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <label class="col-md-2 control-label"> Loyalty Points </label>
+                        <div class="col-md-2 name-field">
+                            <input class="form-control" type="number" min='0' max='{{orderAdd.available_points}}' ng-model="orderAdd.loyalty_point">
+                        </div>
+                        <span class="col-md-4" style="padding: 10px 0px 0px 40px" ng-show="orderAdd.available_points !== undefined">{{'Available Points : ' + orderAdd.available_points}}</span>
+                    </div>
+                    <div class="form-group" >
+                        <label class="col-md-2 control-label"> Delivery Date </label>
+                        <div class="col-md-2" style='display: flex;'>
+                            <input type="text"  readonly="readonly" class="form-control datepicker" datepicker-append-to-body="true" uib-datepicker-popup="{{'dd-MM-yyyy'}}" ng-model="orderAdd.delivery_date" is-open="orderAdd.isDateOpen" datepicker-options="dateOptions" ng-required="true" close-text="Close"  ng-click="orderAdd.openDate()" alt-input-formats="altInputFormats" />
+                            <span class="input-group-btn">
+                              <button type="button" class="btn btn-default" ng-click="orderAdd.openDate()"><i class="ti ti-calendar"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                <div class="clearfix"></div>
+                <div class="scroll-content item-table col-md-offset-2 col-md-8" style="padding: 20px;">
+                    <div class="col-md-12 box-div-heading"  ng-show="orderAdd.showItems">
+                        <div class="col-md-6">
+                            <h5 class="title">Items List</h5>
+                        </div>
+                    </div>
+                    <div id="order-{{ord.id}}"  ng-show="orderAdd.showItems">
+                        <table class="table table-striped m-n">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Item Code</th>
+                                    <th>Quantity</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="(index, item) in orderAdd.selectedItems">
+                                    <td>{{item.sku}} <br> ({{item.super8_name}})</td>
+                                    <td>{{item.item_code}}</td>
+                                    <td>{{item.quantity}}</td>
+                                    <td>
+                                        <span class="btn btn-danger-alt btn-growsari" ng-click="orderAdd.removeItem(index)">
+                                            <i class="ti ti-trash"></i>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="submit-btn-div col-md-6">
+                                <span class="btn btn-primary-alt btn-label btn-growsari" ng-click="orderAdd.submitOrder()">Submit</span>
+                            </div>
+                            <div class="cancel-btn-div col-md-6">
+                                <span class="btn btn-primary-alt btn-label btn-growsari" id="cancelForm" ng-click="orderAdd.cancel()">Cancel</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

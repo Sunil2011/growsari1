@@ -1,0 +1,32 @@
+<?php
+
+return array(
+    'zf2-error-handler' => array(
+        // Disable global php display errors
+        'php_settings' => array(
+            'display_startup_errors' => false,
+            'display_errors' => false,
+        ),
+        
+        //Use this for development mode
+        'display_html_exceptions' => true,
+        
+        // Ignores exceptions defined here
+        'ignore_exceptions' => array(
+            'BjyAuthorize\Exception\UnAuthorizedException',
+        ),
+        
+        // json handler, which returns JSON response based on below config.
+        // you can enable this handler only for ajax or context based
+        'json_response_handler' => array(
+            'handler_class' => 'Zf2ErrorHandler\Whoops\JsonResponseHandler',
+            'display' => true,
+            'ajax_only' => false, 
+            'context_based_only' => true, //ajax_only should be false for this to work
+            'show_trace' => false,
+        ),
+        
+        //logs the errors to the file.
+        'logger' => 'Zf2ErrorHandler\Logger',
+    ),
+);

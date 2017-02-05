@@ -1,0 +1,8 @@
+<div class="row" ng-show="show">
+    <div class="col-sm-6">
+        <p>Showing {{pagination.begin}} to {{pagination.end}} of {{pagination.totalItems}} entries</p>
+    </div>
+    <div class="col-sm-6">
+        <uib-pagination class="gs-pagination" total-items="pagination.totalItems" items-per-page="pagination.numPerPage" ng-model="pagination.currentPage" max-size="pagination.maxSize" ng-change="setPage()" boundary-links="false"></uib-pagination>
+    </div>
+</div>

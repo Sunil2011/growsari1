@@ -1,0 +1,39 @@
+<div id="order-box-add">
+    <div class="modal-header">
+        <h3 class="modal-title">Assign Shipper - Order Id # {{assignShipperBoxModal.orderId}}</h3>
+    </div>
+    
+    <div class="modal-body" id="box-modal">
+        <div class="row packed-item">
+            <div class="col-md-8">
+              <address ng-if="assignShipperBoxModal.order">
+                <span class="sub-heading">Store Details :</span><br>
+                <div>
+                  <span ng-show="assignShipperBoxModal.order.store_photo && assignShipperBoxModal.order.store_photo != 0">
+                      <img class="profile-img" ng-src="{{assignShipperBoxModal.order.store_photo}}" err-src="{{CONFIG.ImageBasePath + '/store/store.png'}}"/>
+                  </span><br>
+                  <strong>{{assignShipperBoxModal.order.store_name}}</strong><br>
+                  <span class="sub-heading">Username : </span>{{assignShipperBoxModal.order.store_username}}</br>
+                  <p>
+                    <span class="sub-heading">Addr : </span> {{assignShipperBoxModal.order.store_address}}<br>
+                    <abbr class="sub-heading" title="Phone">P:</abbr> {{assignShipperBoxModal.order.store_contact_no}}
+                  </p>
+                </div>
+              </address>
+
+              <label>Shipping Date</label>
+              <div>{{assignShipperBoxModal.order.delivered_by | gdate | date: 'medium'}}</div><br><br>
+              
+              <label>Select salesperson</label>
+              <select name="selector1" id="selector1" class="form-control" ng-model="assignShipperBoxModal.order.shipper_team_id">
+                  <option value="">Select Item</option>
+                  <option ng-repeat="item in assignShipperBoxModal.shipper" value="{{item.id}}" >{{item.name}}</option>
+              </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary-alt btn-growsari" type="button" ng-click="assignShipperBoxModal.assignShipper()">Assign</button>
+        <button class="btn btn-primary-alt btn-growsari" type="button" ng-click="assignShipperBoxModal.close()">Cancel</button>
+    </div>
+</div>

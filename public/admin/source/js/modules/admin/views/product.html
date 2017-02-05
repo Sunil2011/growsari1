@@ -1,0 +1,82 @@
+<div class="col-sm-12">
+  <div class=" page-heading" id="page-heading">
+    <span>Products</span>
+  </div>
+  
+  <panel panel-class="panel-sky"> 
+    <div class="panel panel-sky add-panel">
+      <div class="form-horizontal panel-heading list-header">
+        <div class="col-md-10 panel-filter">
+          <label><b>Category</b></label>
+          <select id="selectedCat" class="form-control" ng-model="selectedCat" ng-change="prodCatAndOrBrand(selectedCat, selectedBrand, selectedSearch)" >
+            <option value="">Select category</option>
+            <option ng-repeat="item in cats" value="{{ item.category_id}}"> {{ item.category_name}} </option>
+          </select>
+          <label><b>Brand</b> </label>
+          <select id="selectedCat" class="form-control" ng-model="selectedBrand" ng-change="prodCatAndOrBrand(selectedCat, selectedBrand, selectedSearch)" >
+            <option value="">Select brand</option>
+            <option ng-repeat="item in brds" value="{{ item.brand_id}}"> {{ item.brand_name}} </option>
+          </select>
+          <div class="filters row">
+            <div class="search-filter">
+              <label>Search</label>
+              <input type="text" class="form-control ng-pristine ng-valid ng-touched" ng-keyup="$event.keyCode == 13 && prodCatAndOrBrand(selectedCat, selectedBrand, selectedSearch)" ng-model="selectedSearch">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="prodCatAndOrBrand(selectedCat, selectedBrand, selectedSearch)"><i class="glyphicon glyphicon-search"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <span> 
+            <span class="btn btn-success-alt btn-growsari" id="addProduct" type="button" style="margin: 5px" ng-click="addProduct()"> Add </span>  &nbsp;&nbsp;
+            <span class="btn btn-success-alt btn-growsari" type="button" style="margin: 5px" ng-click="export()"> Export </span>  &nbsp;&nbsp;
+            <span class="btn btn-danger-alt btn-growsari" id="deleteProduct" ng-click="deleteProduct()">
+              <i class="ti ti-trash"></i>
+            </span>
+          </span>
+        </div>
+      </div>
+      <div class="panel-heading col-md-2">
+
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive ng-scope">
+          <table class="table">
+            <thead>
+              <tr style="border-left: 10px solid #fff;">
+                <th> # </th>
+                <th> SKU </th>
+                <th> Category </th>
+                <th> Volume </th>
+                <th> Price </th>
+                <th> SRP </th>
+                <th> Image </th>
+              </tr>
+            </thead>
+            <tbody  ng-hide="product.noResults">
+              <tr ng-style="x.variant_color && {'border-left':'10px solid #' + x.variant_color}" ng-repeat="x in product.prd">
+                <td> <input type="radio"  name="product_id" ng-value="{{x.id}}" ng-model="product.id" class="checkBoxClass">  </td>
+                <td> <a ng-href="" ng-click="editProduct(x.id)"> {{ x.sku}} </a></td>
+                <td>{{ x.line}}</td>
+                <td>{{ x.volume}}</td>
+                <td>{{ x.price}}</td>
+                <td>{{ x.srp}}</td>
+                <td><img width="50px" ng-src="{{x.image}}" err-src="{{imageBasePath + 'brand/brand.png'}}"/></td>
+              </tr>
+            </tbody>
+          </table>
+          <p ng-show="product.noResults">No Results Found</p>
+        </div>
+      </div>
+    </div>
+  </panel>
+  <gs-pagination ng-hide="product.noResults"></gs-pagination>
+</div>
+<script>
+  $(document).ready(function () {
+    $("#ckbCheckAll").click(function () {
+      $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+    });
+  });
+</script>

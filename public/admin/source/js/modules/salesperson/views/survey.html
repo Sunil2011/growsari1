@@ -1,0 +1,68 @@
+<div class="col-sm-12">
+  <div class=" page-heading" id="page-heading">
+    <span>Survey</span>
+  </div>
+  <p ng-show="survey.noResults">No Results Found</p>
+  <panel panel-class="panel-sky" ng-hide="survey.noResults"> 
+    <div class="panel panel-sky add-panel">
+      <div class="form-horizontal panel-heading list-header">
+          <div class="col-md-10 panel-filter">
+              <div class="filters row">
+                  <div class="search-filter">
+                      <label>Search</label>
+                      <input type="text" class="form-control ng-pristine ng-valid ng-touched" ng-keyup="$event.keyCode == 13 && survey.searchSurvey()" ng-model="survey.search">
+                      <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" ng-click="survey.searchSurvey()"><i class="glyphicon glyphicon-search"></i></button>
+                      </span>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-2">
+              <span>
+                  <!--<span class="btn btn-success-alt btn-growsari" type="button" style="margin: 5px" ng-click="createStore()"> Create Store </span>-->
+                  <span class="btn btn-danger-alt btn-growsari" id="deleteProduct" ng-click="deleteSurvey()">
+                      <i class="ti ti-trash"></i>
+                  </span>
+              </span>
+          </div>
+      </div>
+      <div class="panel-heading col-md-2">
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive ng-scope">
+          <table class="table">
+            <thead>
+              <tr style="border-left: 10px solid #fff;">
+                <th> # </th>
+                <th> Name </th>
+                <th> Address </th>
+                <th> contact No </th>                
+                <th> Created at </th>
+                <th> Store signin date </th>
+              </tr>
+            </thead>
+            <tbody>
+              {{x}}
+              <tr ng-style="x.variant_color && {'border-left':'10px solid #' + x.variant_color}" ng-repeat="x in survey.survey">
+                <td> <input type="radio"  name="survey_id" ng-value="{{x.id}}" ng-model="survey.id" class="checkBoxClass">  </td>
+                <td> <a ng-href="" ng-click="editSurvey(x.id)"> {{ x.name}} </a></td>
+                <td>{{ x.address}}</td>
+                <td>{{ x.contact_no}}</td>
+                <td>{{ formatDate(x.created_at)}}</td>
+                <td>{{ formatDate(x.store_first_loggedin_time)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </panel>
+  <gs-pagination ng-hide="survey.noResults"></gs-pagination>
+</div>
+<script>
+  $(document).ready(function () {
+    $("#ckbCheckAll").click(function () {
+      $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+    });
+  });
+</script>

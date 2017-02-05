@@ -1,0 +1,44 @@
+<div id="order-loyalty-add" style="z-index:1400">
+  <div class="modal-header">
+    <h3 class="modal-title">Add Loyalty Points: Store {{'#' + storeId + ' (' + updateWallet.store_name + ')'}}</h3>
+  </div>
+  <div class="modal-body" id="box-modal" style='height:200px;'>
+    <div class="col-sm-12">
+      <div class="panel panel-sky add-panel" style="border:0px;box-shadow:0 0 0 0;margin:0px;">
+        <div class="panel-body" style="padding:0px;">
+            <form class="form-horizontal row-border ng-pristine ng-valid">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Store Balance</label>
+                    <div class="col-sm-7 name-field">
+                        <p ng-if="updateWallet.store_balance">{{updateWallet.store_balance}}</p>
+                        <p ng-if="!updateWallet.store_balance">{{0}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Loan</label>
+                    <div class="col-sm-1 name-field">
+                        <input class="form-control gs-checkbox" type="checkbox" ng-model="updateWallet.is_loan">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Amount</label>
+                    <div class="col-sm-7 name-field">
+                        <input class="form-control" type="number" min='0' ng-model="updateWallet.amount">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Remark</label>
+                    <div class="col-md-7 name-field">
+                        <input class="form-control" type="text" ng-model="updateWallet.remark">
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary-alt btn-growsari" type="button" ng-click="updateWallet.addMoney(storeId)">Add</button>
+    <button class="btn btn-primary-alt btn-growsari" type="button" ng-click="updateWallet.close()">Cancel</button>
+  </div>
+</div>

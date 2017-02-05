@@ -1,0 +1,140 @@
+<div class="container-fluid">    
+    <div data-widget-group="group1" class="ui-sortable">
+        <div class=" page-heading" id="page-heading">
+            <span> Add/Edit Products</span>
+        </div>
+        <div class="panel panel-default add-panel">
+            <div class="panel-body">
+                <form ng-submit="submitDataWithFile()" enctype="multipart/form-data" id="productForm" class="form-horizontal row-border ng-pristine ng-valid">
+                    <input class="form-control"  type="hidden" ng-model="prdUpdate.product.id">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> SKU </label>
+                        <div class="col-md-8 name-field">
+                            <input class="form-control" type="text" ng-model="prdUpdate.product.sku">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Super8 Name </label>
+                        <div class="col-md-8 name-field">
+                            <input class="form-control" type="text" ng-model="prdUpdate.product.super8_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Item Code </label>
+                        <div class="col-md-8 name-field">
+                            <input class="form-control" type="text" ng-model="prdUpdate.product.item_code">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Barcode </label>
+                        <div class="col-md-8 name-field">
+                            <input class="form-control" type="text" ng-model="prdUpdate.product.barcode">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Brand / Variant </label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="prdUpdate.product.brand_id" ng-change="prdUpdate.updateSKU(prdUpdate.product.brand_id)">
+                                <option value="">Select Brand</option>
+                                <option ng-repeat="item in prdUpdate.brands" value="{{item.brand_id}}"> {{ item.brand_name}} </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Category </label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="prdUpdate.product.category_id">
+                                <option value="">Select Category</option>
+                                <option ng-repeat="item in prdUpdate.categories" value="{{ item.category_id}}"> {{ item.category_name}} </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Format </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-change="prdUpdate.updateSKU()" ng-model="prdUpdate.product.format">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > Volume </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-change="prdUpdate.updateSKU()" ng-model="prdUpdate.product.volume">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Quantity </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="prdUpdate.product.quantity">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > Super8 Price </label>
+                        <div class="col-md-8">
+                            <input ng-disabled="1" class="form-control" type="text" value="{{prdUpdate.product.super8_price}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > Price </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="prdUpdate.product.price">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > SRP </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="prdUpdate.product.srp">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > Variant Color </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="prdUpdate.product.variant_color">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Promotional </label>
+                        <div class="col-md-8 check-input">
+                            <input class="" type="checkbox" ng-model="prdUpdate.product.is_promotional" ng-true-value="'1'" ng-false-value="'0'"  ng-checked="prdUpdate.product.is_promotional == 1"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Recommended </label>
+                        <div class="col-md-8 check-input">
+                            <input class="" type="checkbox" ng-model="prdUpdate.product.is_recommended" ng-true-value="'1'" ng-false-value="'0'"  ng-checked="prdUpdate.product.is_recommended == 1"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> New </label>
+                        <div class="col-md-8 check-input">
+                            <input class="" type="checkbox" ng-model="prdUpdate.product.is_new" ng-true-value="'1'" ng-false-value="'0'"  ng-checked="prdUpdate.product.is_new == 1"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Locked </label>
+                        <div class="col-md-8 check-input">
+                            <input class="" type="checkbox" ng-model="prdUpdate.product.is_locked" ng-true-value="'1'" ng-false-value="'0'"  ng-checked="prdUpdate.product.is_locked == 1"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Availability </label>
+                        <div class="col-md-8 check-input">
+                            <input class="" type="checkbox" ng-model="prdUpdate.product.is_available" ng-true-value="'1'" ng-false-value="'0'"  ng-checked="prdUpdate.product.is_available == 1"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="submit-btn-div col-md-6">
+                            <span class="btn btn-primary-alt btn-label btn-growsari" ng-click="prdUpdate.submitProduct()">Submit</span>
+                        </div>
+                        <div class="cancel-btn-div col-md-6">
+                            <span class="btn btn-primary-alt btn-label btn-growsari" id="cancelForm" ng-click="prdUpdate.cancel()">Cancel</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

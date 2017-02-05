@@ -1,0 +1,22 @@
+<div class=" page-heading" id="page-heading">
+    <span>Orders</span>
+</div>
+
+<div class="container-fluid">
+  <div data-widget-group="group1" class="ui-sortable">
+    <div class="row">
+      <div class="" gs-order-list="" 
+           add-items="addItems(orderId)"  
+           change-delivery-date="changeDeliveryDate(orderId, date)"
+           pack="pack(orderId)"  
+           add-points="addPoints(orderId, storeId)"  
+           confirm-order="confirmOrder(orderId)"  
+           cancel-order="cancelOrder(orderId)" 
+           delete-order-item="deleteOrderItem(orderId, itemId)"
+           edit-order-item="editOrderItem(orderId, itemId, quantity, isAvailable, selectedQuantity)"
+           add-order="addOrder()" 
+           task-finish="taskFinish(orderId, taskId)">
+      </div>
+    </div>
+  </div>
+</div> <!-- .container-fluid -->

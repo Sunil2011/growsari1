@@ -1,0 +1,56 @@
+<?php
+/**
+ * Local Configuration Override
+ *
+ * This configuration override file is for overriding environment-specific and
+ * security-sensitive configuration information. Copy this file without the
+ * .dist extension at the end and populate values as needed.
+ *
+ * @NOTE: This file is ignored from Git by default with the .gitignore included
+ * in ZendSkeletonApplication. This is a good practice, as it prevents sensitive
+ * credentials from accidentally being committed into version control.
+ */
+
+ define('BASE_PATH', '');
+
+return array(
+    'path' => array(
+        'PUBLIC_PATH' => BASE_PATH,  //set public path
+        'ROOT_PATH' => '/var/www/html',                 //set root path
+        'SWAGGER_PATH' => '/swagger/docs',                 //set swagger path
+        'HOST' => 'http://localhost',  
+        'thumb_path' => '/uploads'    // thumb path or s3 path
+    ),
+    'db' => array(
+        'driver' => 'Pdo',
+        'dsn' => 'mysql:dbname=grow_sari;host=localhost',
+        'username' => 'root',
+        'password' => "welcome",
+        'driver_options' => array(
+            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\', time_zone = "' . date('P') . '"'
+        ),
+    ),   
+    
+    'swagger' => array(
+        'resource_options' => array(
+            'defaultBasePath' => BASE_PATH,
+        ),
+    ),
+    
+    'globe' => array(
+        'short_code' => '',
+        'short_code_cross_telco' => '',
+        'app_id' => '',
+        'app_secret' => '',
+    ),
+    
+    'aws' => array(
+        'version' => 'latest',
+        'region' => 'ap-southeast-1',
+        'bucket' => '',
+        'credentials' => [
+            'key'    => '',
+            'secret' => '',
+        ]
+    )
+);

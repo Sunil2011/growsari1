@@ -1,0 +1,196 @@
+<div class="container-fluid">    
+    <div data-widget-group="group1" class="ui-sortable">
+        <div class=" page-heading" id="page-heading">
+            <span ng-if="!storeAddEdit.store.id">Add Store</span>
+            <span ng-if="storeAddEdit.store.id">Edit Store</span>
+        </div>
+        <div class="panel panel-default add-panel">
+            <div class="panel-body">
+                <form ng-submit="submitDataWithFile()" enctype="multipart/form-data" id="storeForm" class="form-horizontal row-border ng-pristine ng-valid">
+                    <input class="form-control"  type="hidden" ng-model="storeAddEdit.store.id">
+                    
+                    <div class="form-group" ng-if="!storeAddEdit.store.id">
+                        <label class="col-md-2 control-label"> Warehouse *</label>
+                        <div class="col-md-8 name-field">
+                            <select class="form-control" ng-model="storeAddEdit.store.warehouse_id" ng-change="storeAddEdit.fetchShipperList()">
+                                <option ng-repeat="item in storeAddEdit.warehouse" value="{{item.id}}" ng-if="!item.store_id"> {{ item.name}} </option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" ng-if="!storeAddEdit.store.id">
+                        <label class="col-md-2 control-label"> Shipper *</label>
+                        <div class="col-md-8 name-field">
+                            <select class="form-control" ng-model="storeAddEdit.store.warehouse_shipper_id">
+                                <option ng-repeat="item in storeAddEdit.shipper" value="{{item.warehouse_shipper_id}}" ng-if="!item.store_id"> {{ item.name}} </option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" ng-if="!storeAddEdit.store.id">
+                        <label class="col-md-2 control-label">Email </label>
+                        <div class="col-md-8 name-field">
+                            <input class="form-control" type="email"  ng-model="storeAddEdit.store.email">
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="!storeAddEdit.store.id">
+                        <label class="col-md-2 control-label">Password *</label>
+                        <div class="col-md-8 name-field">
+                          <input class="form-control" type="password"  ng-model="storeAddEdit.store.password" placeholder="min 6 characters">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" >
+                        <label class="col-md-2 control-label"> Store Name *</label>
+                        <div class="col-md-8 name-field">
+                            <input class="form-control" type="text" ng-model="storeAddEdit.store.name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Customer Name *</label>
+                        <div class="col-md-8 name-field">
+                            <input class="form-control" type="text" ng-model="storeAddEdit.store.customer_name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Contact Number * </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text"  ng-model="storeAddEdit.store.contact_no">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > Address *</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="storeAddEdit.store.address">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Photo </label>
+                        <span class="col-md-2" ng-show="storeAddEdit.store.photo">
+                            <img class="profile-img" ng-src="{{storeAddEdit.store.photo}}" err-src="{{CONFIG.ImageBasePath + '/store/store.png'}}"/>
+                        </span>
+                        <label class="custom-file-upload col-md-2">
+                            <input class="" type="file" file-model="file"/>
+                            <i class="ti ti-upload"></i>
+                        </label>
+                        <span class="col-md-2">
+                            <p ng-show="fileName">{{fileName}}</p>
+                        </span>
+                    </div>
+                    
+                    
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > Locality </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="storeAddEdit.store.locality">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > City </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="storeAddEdit.store.city">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > Province </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="storeAddEdit.store.province">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > Country </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="storeAddEdit.store.country">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" > Pincode </label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="storeAddEdit.store.pincode">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Point </label>
+                        <div class="col-md-2">
+                            <input class="form-control" type="text" ng-model="storeAddEdit.store.point_x" placeholder="lat">
+                        </div>
+                        <div class="col-md-2">
+                            <input class="form-control" type="text" ng-model="storeAddEdit.store.point_y" placeholder="long">
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Is Covered </label>
+                        <div class="col-md-8 check-input">
+                            <input class="" type="checkbox" ng-model="storeAddEdit.store.is_covered" ng-true-value="1" ng-false-value="0"  ng-checked="storeAddEdit.store.is_covered == 1"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Is Store Owner </label>
+                        <div class="col-md-8 check-input">
+                            <input class="" type="checkbox" ng-model="storeAddEdit.store.is_storeowner" ng-true-value="1" ng-false-value="0"  ng-checked="storeAddEdit.store.is_storeowner == 1"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"> Has Smartphone </label>
+                        <div class="col-md-8 check-input">
+                            <input class="" type="checkbox" ng-model="storeAddEdit.store.has_smartphone" ng-true-value="1" ng-false-value="0"  ng-checked="storeAddEdit.store.has_smartphone == 1"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Spend per week</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text"  ng-model="storeAddEdit.store.spend_per_week">
+                            <!--<select class="form-control" ng-model="storeAddEdit.store.spend_per_week" >
+                                <option ng-repeat="(key, value) in storeAddEdit.spend_per_week" value="{{key}}"> {{ value}} </option>
+                            </select>-->
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Funnel Status</label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="storeAddEdit.store.funnel_status" >
+                                <option ng-repeat="(key, value) in storeAddEdit.funnel_status" value="{{key}}"> {{ value}} </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Revisit Date</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text"  ng-model="storeAddEdit.store.revisit_date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Revisit Time</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text"  ng-model="storeAddEdit.store.revisit_time">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Remarks</label>
+                        <div class="col-md-8">
+                          <textarea class="form-control" type="text"  ng-model="storeAddEdit.store.remarks"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="submit-btn-div col-md-6">
+                            <span class="btn btn-primary-alt btn-label btn-growsari" ng-click="storeAddEdit.submitStore()">Submit</span>
+                        </div>
+                        <div class="cancel-btn-div col-md-6">
+                            <span class="btn btn-primary-alt btn-label btn-growsari" id="cancelForm" ng-click="storeAddEdit.cancel()">Cancel</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

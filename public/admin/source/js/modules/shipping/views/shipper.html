@@ -1,0 +1,45 @@
+<div class="col-sm-12">
+  <div class=" page-heading" id="page-heading">
+    <span>Shipper Members</span>
+  </div>
+  <p ng-show="shipperTeam.noResults">No Results Found</p>
+  <panel panel-class="panel-sky" ng-hide="survey.noResults"> 
+    <div class="panel panel-sky add-panel">
+      <div class="form-horizontal panel-heading list-header">
+          <div class="col-md-2">
+              <span>
+                  <span class="btn btn-success-alt btn-growsari" type="button" style="margin: 5px" ng-click="addShipper()"> Create member </span>  &nbsp;&nbsp;
+                  <span class="btn btn-danger-alt btn-growsari" id="deleteProduct" ng-click="deleteShipper()">
+                      <i class="ti ti-trash"></i>
+                  </span>
+              </span>
+          </div>
+      </div>
+      <div class="panel-heading col-md-2">
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive ng-scope">
+          <table class="table">
+            <thead>
+              <tr style="border-left: 10px solid #fff;">
+                <th> # </th>
+                <th> Name </th>
+                <th> Username </th>
+                <th> contact No </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-style="x.variant_color && {'border-left':'10px solid #' + x.variant_color}" ng-repeat="x in shipperTeam.shipper">
+                <td> <input type="radio" name="shipper_team_id" ng-value="{{x.id}}" ng-model="shipperTeam.id" class="checkBoxClass">  </td>
+                <td> {{ x.name}} </td>
+                <td>{{ x.email}}</td>
+                <td>{{ x.phone}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </panel>
+  <gs-pagination ng-hide="shipperTeam.noResults"></gs-pagination>
+</div>

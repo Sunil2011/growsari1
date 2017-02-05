@@ -1,0 +1,223 @@
+<div class="col-md-12">
+  <div class="filters row">
+    <div class="search-filter col-md-12">
+        <div class="col-md-4 filter-box"> 
+            <label>Search</label>
+            <input type="text" class="form-control ng-pristine ng-valid ng-touched" ng-keyup="$event.keyCode == 13 && order.getSearch()" ng-model="srvc.search">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="order.getSearch()"><i class="glyphicon glyphicon-search"></i></button>
+            </span>
+        </div>
+        <div class="col-md-4 filter-box" style="margin-left: 30px;"> 
+            <label>Delivery Date</label>
+            <div class="col-md-6" style='display: flex;'>
+                <input type="text"  readonly="readonly" class="form-control datepicker" datepicker-append-to-body="true" ng-change="order.filterByDelDate()" uib-datepicker-popup="{{'dd-MM-yyyy'}}" ng-model="srvc.delivery_date" is-open="order.isDateOpen" datepicker-options="dateOptions" ng-required="true" close-text="Close"  ng-click="order.openDelDate()" alt-input-formats="altInputFormats" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="order.openDelDate()"><i class="ti ti-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-4 filter-box"> 
+            <label>Sort By</label>
+            <select class="form-control" ng-model="order.sortBy" ng-change="order.sortOrders()">
+                <option value="created_at"> Created Time </option>
+                <option value="delivery_at"> Delivery Time </option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6">
+      <span> 
+        <span class="btn btn-success-alt btn-growsari" style="float: right;margin: 5px" id="addOrder" ng-show="order.userType === 'CALLCENTER'" type="button" ng-click="addOrder()"> Add Order</span>
+      </span>
+    </div>
+  </div>
+  <p ng-show="order.noResults">No Results Found</p>
+  <div class="table-panel" ng-repeat="ord in order.list">
+    <div class="panel panel-default">
+      <div class="panel-heading" 
+           ng-style="((order.userType === 'CALLCENTER' || (order.userType === 'WAREHOUSE' && ord.current_status === 'pending')) && ord.order_task_id && {'background-color':'bisque'}) || (order.screenType === 'replacementOrders') && !ord.order_task_id && {'background-color':'palegreen'}">
+          <h2>Order # {{ord.id}} 
+              <b style="color: black;" ng-show="{{order.userType === 'WAREHOUSE' && order.screenType === 'replacementOrders' && !ord.order_task_id}}"> &nbsp;( Confirmed Replacements ) 
+              </b>
+              <b style="color: red;" ng-show="{{(order.userType === 'CALLCENTER' || (order.userType === 'WAREHOUSE' && ord.current_status === 'pending')) && ord.order_task_id}}"> &nbsp;( Out of Stock task ) 
+              </b>
+          </h2>
+        <div class="panel-ctrls panel-ctrl-btn">
+          <div id="" ng-show="{{ ((ord.current_status === 'pending' && !ord.order_task_id) && order.userType === 'WAREHOUSE') || order.userType === 'CALLCENTER'}}">
+            <span class="btn btn-primary-alt" ng-click="cancelOrder({orderId: ord.id})">Cancel order</span>
+          </div>
+          <div id="" ng-show="{{order.userType === 'CALLCENTER'}}">
+            <span class="btn btn-primary-alt" ng-click="addPoints({orderId: ord.id, storeId: ord.store_id})">Use Loyalty Point</span>
+          </div>
+          <div id="" ng-show="{{ ord.current_status === 'pending' && (order.userType === 'WAREHOUSE') }}">
+            <span ng-disabled="ord.order_task_id" class="btn btn-primary-alt btn-growsari" ng-click="order.toggleOrderList(ord.id);confirmOrder({orderId: ord.id})">Confirm order</span>            
+          </div>
+          <div id="" ng-show="{{order.userType === 'CALLCENTER' && ord.order_task_id}}">
+            <span class="btn btn-primary-alt btn-growsari" ng-click="taskFinish({orderId: ord.id, taskId: ord.order_task_id})">Confirm Replacements</span>
+          </div>
+          <div id="" ng-show="{{order.confirmStatus && order.userType === 'WAREHOUSE'}}">
+            <span class="btn btn-primary-alt btn-block btn-growsari" ng-click="readyToPack({orderId: ord.id})">Send To Pack</span>
+          </div>
+          <div id="" ng-show="{{ord.current_status === 'ready_to_pack' && (order.userType === 'WAREHOUSE' || order.userType === 'CALLCENTER')}}">
+            <span ng-disabled="ord.order_task_id" class="btn btn-primary-alt btn-block btn-growsari" ng-click="order.toggleOrderList(ord.id, 1);pack({orderId: ord.id})">Pack</span>
+          </div>
+          <div id="" ng-show="orderActionCallbackExists">
+            <span class="btn btn-primary-alt btn-block btn-growsari" ng-click="orderActionCallback({order: ord})">{{orderActionTitle}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body scroll-pane">
+        <div class="panel-detail col-md-12">
+          <div class="panel-detail-sub col-md-6">
+            <address>
+              <span class="sub-heading">Store Details :</span><br>
+              <div>
+                <span ng-show="ord.store_photo && ord.store_photo != 0">
+                  <img class="profile-img" ng-src="{{ord.store_photo}}" err-src="{{CONFIG.ImageBasePath + '/store/store.png'}}"/>
+                </span><br>
+                <strong>{{ord.store_name}}</strong><br>
+                <span class="sub-heading">Username : </span>{{ord.store_username}}</br>
+                <p>
+                  <span class="sub-heading">Addr : </span> {{ord.store_address}}<br>
+                  <abbr class="sub-heading" title="Phone">P:</abbr> {{ord.store_contact_no}}
+                </p>
+              </div>
+            </address>
+          </div>
+          <div class="panel-detail-sub col-md-6">
+            <div><span class="sub-heading">Status : </span>{{srvc.getStatus(ord.current_status)}}</br></div>
+            <div ng-show="order.orderStatus == 'dispatched' || order.orderStatus == 'delivered' || order.userType === 'GROWSARI' || order.userType === 'CALLCENTER'"><span class="sub-heading" >Net Amount : ₱{{ord.net_amount}}</span></br></div>
+            <div ng-show="order.orderStatus == 'delivered'">
+              <span class="sub-heading" >Amount Collected : ₱{{ord.amount_collected}}</span></br>
+              <span class="sub-heading" >Returned Items Amount : ₱{{ord.returned_item_amount}}</span></br>
+            </div>
+            <div><span class="sub-heading">Order Time : </span>{{formatDate(ord.created_at)}}</br></div>
+            <div ng-show="ord.delivered_by">
+              <div ng-if="order.userType === 'CALLCENTER'">
+                <span class="sub-heading">Est. Delivery Date : </span>
+                <a href="#" editable-bsdate="ord.delivered_by" e-is-open="opened.$data" e-readonly="true" e-ng-click="open($event,'$data')" e-datepicker-popup="yyyy-MM-dd" onbeforesave="changeDeliveryDate({orderId: ord.id, date: $data})">
+                  {{ ord.delivered_by | date:"yyyy-MM-dd" }}
+                </a>
+                </br>
+                <span class="sub-heading">Loyalty Points Used : {{ord.loyalty_points_used}}</span>
+              </div>
+              <div ng-if="order.userType !== 'CALLCENTER'">
+                 <span class="sub-heading">Est. Delivery Date : </span> {{ formatDate(ord.delivered_by) }}
+              </div>
+            </div>
+            
+            <div ng-show="order.userType !== 'WAREHOUSE'"><span class="sub-heading">Shipped By : </span>{{ord.shipper_team_name}}</br></div>            
+            <div ng-show="order.orderStatus == 'packed' || order.orderStatus == 'dispatched' || order.orderStatus == 'delivered'"><span class="sub-heading">No Of Boxes : </span>{{ord.no_of_boxes}}</br></div>            
+            <br>
+          </div>
+        </div>
+        <div class="col-md-12" ng-show="order.orderStatus == 'delivered'">
+          <span class="sub-heading">Rating: <span gs-rating rating-value="ord.feedback_rating" max="5" readonly="true"></span></span></br>
+          <span class="sub-heading" ng-show="ord.feedback_experience">Feedback : {{ord.feedback_experience}} <span ng-show="ord.feedback_remarks">({{ord.feedback_remarks}})</span></span></br></br></br>
+        </div>
+        <div class=" col-md-12">
+          <span class="btn btn-sm btn-primary-alt btn-label btn-growsari" ng-click="order.toggleOrderList(ord.id)"><i class="ti ti-angle-down"></i>Show items list</span>
+        </div>
+        <div class="scroll-content item-table col-md-12">
+          <div class="col-md-12 box-div-heading"  ng-show="{{'showList' + ord.id}}">
+            <div class="col-md-6">
+              <h5 class="title">Items List</h5>
+            </div>
+            <div class="col-md-6 box-action">
+<!--              <span class="btn btn-primary-alt btn-growsari" ng-click="" ng-print print-element-id="order-{{ord.id}}">
+                <i class="ti ti-printer"></i>
+              </span>-->
+                <span class="btn btn-primary-alt btn-growsari" ng-click="printPicklist(ord.id, 'all')">
+                    <i class="ti ti-printer">All</i>
+                </span>
+                <span class="btn btn-primary-alt btn-growsari" ng-click="printPicklist(ord.id, 'new')">
+                    <i class="ti ti-printer">New</i>
+                </span>
+              <span class="btn btn-primary-alt btn-growsari" ng-show="{{ order.userType === 'CALLCENTER'}}" ng-click="addItems({orderId: ord.id})">
+                ADD
+              </span>
+            </div>
+          </div>
+          <div id="order-{{ord.id}}"  ng-show="{{'showList' + ord.id}}">
+            <div class="showForOnlyPrint">
+              <div ng-show="{{order.pendingStatus}}">
+                <h3>Order request for stock confirmation</h3>
+              </div>
+              <div id="" ng-show="{{order.confirmStatus}}">
+                <h3>Confirmed order for picking</h3>
+              </div>
+              <div >
+                Order ID: {{ord.id}}<br><br>
+              </div>
+              <address ng-show="order.userType !== 'WAREHOUSE'">
+                <span class="sub-heading">Store Address :</span><br>
+                <strong>{{ord.store_name}}</strong><br>
+                {{ord.address}}, {{ord.locality}}<br>
+                {{ord.city}}, {{ord.province}} {{ord.pincode}}<br>
+                <abbr title="Phone">P:</abbr> (123) 456-7890
+              </address>
+            </div>
+
+            <table class="table table-striped m-n">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Item Code</th>
+                  <th>Category</th>
+                  <th>Brand</th>
+                  <th>Quantity</th>
+                  <th>Available Quantity</th>
+                  <th>
+                    <input ng-show="order.userType !== 'CALLCENTER'" ng-disabled="{{ !(order.pendingStatus || order.packingStatus) }}" type="checkbox" ng-model="order['isAllSelected' + ord.id]" ng-change="selectAllItems(ord.id, order['itemlist' + ord.id])">Available
+                  </th>
+                  <th ng-show="order.userType === 'CALLCENTER'">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in order['itemlist' + ord.id]" ng-style="(order.userType === 'CALLCENTER' || (order.userType === 'WAREHOUSE' && ord.current_status === 'pending')) && item.is_modified == 1 && {'background-color':'bisque'}">
+                  <td>{{item.sku}} <br> ({{item.super8_name}})</td>
+                  <td>{{item.item_code}}</td>
+                  <td>{{item.category}}</td>
+                  <td>{{item.brand}}</td>
+                  <td>{{item.requested_quantity}}</td>
+                  <td width="10%">
+                    <input class="form-control" ng-disabled="{{ !(order.screenType === 'pending' || order.screenType === 'replacementOrders' || order.packingStatus || (order.userType === 'CALLCENTER' && srvc.getStatus(ord.current_status) == 'Pending')) }}" value="{{item.quantity}}" type="number" min="0" max="{{ (order.userType !== 'CALLCENTER' && item.quantity_by_cc && item.quantity_by_cc != 0)?item.quantity_by_cc:(order.userType !== 'CALLCENTER' && item.requested_quantity)?item.requested_quantity:null}}"  ng-model="order['isSelectedQuantity' + item.id]"  ng-change="updateQuantity(ord.id, item.id, order['isSelectedQuantity' + item.id])">
+                  </td>
+                  <td>
+                    <input ng-disabled="{{!(order.screenType === 'pending' || order.screenType === 'replacementOrders' || order.packingStatus || (order.userType === 'CALLCENTER' && srvc.getStatus(ord.current_status) == 'Pending')) }}" type="checkbox" ng-model="order['isSelected' + item.id]" ng-change="selectItems(ord.id, item.id, order['isSelected' + item.id])">
+                  </td>
+                  <td ng-show="order.userType === 'CALLCENTER'">
+                    <span class="btn btn-danger-alt btn-growsari btn-gs-table" ng-click="editOrderItem({orderId: ord.id, itemId: item.id, quantity: item.quantity, isAvailable: order['isSelected' + item.id], selectedQuantity: order['isSelectedQuantity' + item.id]})">
+                        <i class="ti ti-save"></i>
+                    </span>
+                    <span class="btn btn-danger-alt btn-growsari btn-gs-table" ng-click="deleteOrderItem({orderId: ord.id, itemId: item.id})">
+                        <i class="ti ti-trash"></i>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div><br></div>
+          <div class="col-md-6" ng-show="(order.packingStatus || order.allStatus || order.userType === 'CALLCENTER') && {{'showList' + ord.id}}">
+            <form>
+              <div class="form-group" ng-show="ord.current_status === 'ready_to_pack'">
+                <div >
+                  <label for="no_of_boxes_{{ord.id}}"><strong>No of Boxes</strong></label>
+                  <input id="no_of_boxes_{{ord.id}}" class="form-control" value="" type="number" min="1" ng-model="srvc.boxCounts[ord.id]">
+                </div>
+              </div>
+              <div><span class="btn btn-primary-alt btn-growsari" ng-show="ord.current_status === 'ready_to_pack'" ng-click="pack({orderId: ord.id})">Pack</span></div>
+            </form>
+          </div>
+          <div class="col-md-12 action-panel" ng-show="(order.pendingStatus) && {{'showList' + ord.id}}">
+            <div class="sub-dates col-md-12">
+              <span class="btn btn-primary-alt btn-growsari" ng-show="order.pendingStatus" ng-click="confirmOrder({orderId: ord.id})">Submit</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <gs-pagination></gs-pagination>
+</div>

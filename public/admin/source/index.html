@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Growsari</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Growsari">
+
+
+    <link rel="stylesheet" href="assets/css/main.css?bust=v0.4.2">
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css?bust=v0.4.2">
+    <link rel="stylesheet" href="assets/css/avenxo_vendor.css?bust=v0.4.2">
+    <link rel="stylesheet" href="assets/css/avenxo.css?bust=v0.4.2">
+    <link rel="stylesheet" href="vendor/angular-loading-bar/build/loading-bar.min.css?bust=v0.4.2">
+    <link rel="stylesheet" href="vendor/pnotify/dist/pnotify.css?bust=v0.4.2">
+    <link rel="stylesheet" href="vendor/pnotify/dist/pnotify.buttons.css?bust=v0.4.2">
+    <link rel="stylesheet" href="assets/css/common.css?bust=v0.4.10">
+    <style>
+      .login-logo {
+        font-size: 32px;
+        font-weight: 400;
+      }
+    </style>
+  </head>
+  <body ng-class="{'focused-form': focusedForm, 'sidebar-collapsed': sidebarCollapsed}" class="animated-content" ng-controller="BaseController as base" >
+    
+  <ng-include src="headerView" class="ng-scope navbar-fixed-top"></ng-include>
+  <div id="wrapper">
+    <div id="layout-static">
+      <div class="static-sidebar-wrapper  sidebar-midnightblue" ng-cloak ng-show="layoutLoading">
+        <ng-include src="sidebarView"></ng-include>
+      </div>
+      <div class="static-content-wrapper">
+        <div class="static-content">
+          <div class="page-content" ui-view class="mainview-animation animated">
+          </div> <!--wrap -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="vendor/requirejs/require.js"></script>
+  <script>
+      var baseUrl = '';
+      var hostname = location.hostname.toLowerCase();
+      if (hostname !== "growsari.com" && hostname !== "www.growsari.com" && hostname !== "dev.growsari.com") {
+        baseUrl = '/growsari/public';
+      }
+      
+      var cacheBuster = 'v0.4.64';
+      
+      // obtain requirejs config
+      require(['require', './js/config-require'], function (require, config) {
+
+        // set cache beater
+        config.urlArgs = 'bust='+ cacheBuster;
+
+        // update global require config
+        window.require.config(config);
+
+        // load app
+        require(['./js/main.js']);
+      });
+  </script>
+
+</body>
+</html>
